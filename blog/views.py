@@ -1,8 +1,15 @@
 # Create your views here.
+from pprint import pprint
+
+from django.utils.translation import ugettext_lazy as _
+from rest_framework import parsers, renderers
 from rest_framework import status
 from rest_framework.authtoken.models import Token
+from rest_framework.compat import coreapi, coreschema
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
+from rest_framework.schemas import ManualSchema
+from rest_framework.views import APIView
 
 from blog.serializers import *
 from .models import *
@@ -47,3 +54,54 @@ class SignupView(CreateAPIView):
 
         return Response({"msg": "User Created"}, status=status.HTTP_201_CREATED)
 
+
+class ObtainAuthToken(APIView):
+    throttle_classes = ()
+    permission_classes = ()
+    parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
+    renderer_classes = (renderers.JSONRenderer,)
+    serializer_class = AuthTokenSerializer
+
+    if coreapi is not None and coreschema is not None:
+        schema = ManualSchema(
+            fields=[
+                coreapi.Field(
+                    name="username",
+                    required=True,
+                    location='form',
+                    schema=coreschema.String(
+                        title="Username",
+                        description="Valid username for authentication",
+                    ),
+                ),
+                coreapi.Field(
+                    name="password",
+                    required=True,
+                    location='form',
+                    schema=coreschema.String(
+                        title="Password",
+                        description="Valid password for authentication",
+                    ),
+                ),
+            ],
+            encoding="application/json",
+        )
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        try:
+            serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['user']
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key})
+
+        except serializers.ValidationError as e:
+            try:
+                a = str(e.detail['non_field_errors'][0])
+                if a == _('Unable to log in with provided credentials.'):
+                    return Response({"msg": "Unable to log in with provided credentials."},
+                                    status=status.HTTP_404_NOT_FOUND)
+            except KeyError:
+                return Response({"msg": 'Must include "username" and "password".'},
+                                status=status.HTTP_400_BAD_REQUEST)

@@ -24,5 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/check/', UsernameValidationView.as_view()),
     path('signup/', SignupView.as_view()),
-    url(r'^login/', views.obtain_auth_token),
+    url(r'^login/', ObtainAuthToken.as_view()),
 ]
