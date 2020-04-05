@@ -1,12 +1,12 @@
 # Create your views here.
-from pprint import pprint
 
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import parsers, renderers
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.compat import coreapi, coreschema
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.schemas import ManualSchema
 from rest_framework.views import APIView
@@ -105,3 +105,29 @@ class ObtainAuthToken(APIView):
             except KeyError:
                 return Response({"msg": 'Must include "username" and "password".'},
                                 status=status.HTTP_400_BAD_REQUEST)
+
+
+class CategoryListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
+
+class PostCreateView(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
+
+    def post(self, request, *args, **kwargs):
+        usr = self.request.user
+        usr = Profile.objects.get(user=usr)
+        try:
+            title = request.data.get('title')
+            content = request.data.get('content')
+            cats = request.data.get('category')
+        except:
+            return Response({"msg": "wrong arguments"}, status=status.HTTP_400_BAD_REQUEST)
+
+        tmp = Post.objects.create(title=title, content=content, author=usr)
+        tmp.category.add(*cats)
+
+        return Response({"msg": "created"}, status=status.HTTP_201_CREATED)
