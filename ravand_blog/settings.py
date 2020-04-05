@@ -26,7 +26,14 @@ SECRET_KEY = '_9op3q-3a6!ue=8d0awz6sp(2-m)3^i6@65$o4b2-@gg!++!fv'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://api.blog.ravandcc.ir', 'https://api.blog.ravandcc.ir'
+]
+CORS_ORIGIN_REGEX_WHITELIST = [
+    'http://api.blog.ravandcc.ir', 'https://api.blog.ravandcc.ir'
+]
 
 # Application definition
 
@@ -37,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'rest_framework',
     'blog',
+    'corsheaders',
     'rest_framework.authtoken',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -47,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -121,7 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
