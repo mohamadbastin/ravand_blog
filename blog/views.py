@@ -130,4 +130,4 @@ class PostCreateView(CreateAPIView):
         tmp = Post.objects.create(title=title, content=content, author=usr)
         tmp.category.add(*cats)
 
-        return Response({}, status=status.HTTP_201_CREATED)
+        return Response({"msg": "created"}, status=status.HTTP_201_CREATED)
