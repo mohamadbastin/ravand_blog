@@ -5,7 +5,7 @@ from rest_framework import parsers, renderers
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.compat import coreapi, coreschema
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.schemas import ManualSchema
@@ -131,3 +131,14 @@ class PostCreateView(CreateAPIView):
         tmp.category.add(*cats)
 
         return Response({"msg": "created"}, status=status.HTTP_201_CREATED)
+
+
+class PostListView(ListAPIView):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+
+
+class PostRetrieveView(RetrieveAPIView):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+    lookup_url_kwarg = 'ppk'

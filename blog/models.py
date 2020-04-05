@@ -30,6 +30,7 @@ class Post(models.Model):
     author = models.ForeignKey(Profile, related_name='post', on_delete=models.SET_NULL, null=True)
     picture = models.ImageField(null=True, blank=True)
     date = models.DateField(auto_now_add=True)
+    is_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title + ' by ' + str(self.author)

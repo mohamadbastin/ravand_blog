@@ -28,7 +28,9 @@ urlpatterns = [
     path('signup/', SignupView.as_view()),
     url(r'^login/', ObtainAuthToken.as_view()),
     path('cats/', CategoryListView.as_view()),
-    path('post/create/', PostCreateView.as_view())
+    path('post/create/', PostCreateView.as_view()),
+    path('post/list/', PostListView.as_view()),
+    path('post/<int:ppk>', PostRetrieveView.as_view())
 ]
 
 if settings.DEBUG:
