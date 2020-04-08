@@ -6,3 +6,5 @@ myenv
 .idea
 db.sqlite3
 static
+blog/migrations
+help_us/migrations
