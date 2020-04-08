@@ -20,6 +20,7 @@ from django.urls import path
 from rest_framework.authtoken import views
 
 from blog.views import *
+from help_us.views import *
 from ravand_blog import settings
 
 urlpatterns = [
@@ -30,7 +31,8 @@ urlpatterns = [
     path('cats/', CategoryListView.as_view()),
     path('post/create/', PostCreateView.as_view()),
     path('post/list/', PostListView.as_view()),
-    path('post/<int:ppk>', PostRetrieveView.as_view())
+    path('post/<int:ppk>', PostRetrieveView.as_view()),
+    path('helpus/create/', WorkRequestCreateView.as_view())
 ]
 
 if settings.DEBUG:

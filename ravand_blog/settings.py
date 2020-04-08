@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'rest_framework',
     'blog',
+    'help_us',
     'corsheaders',
     'rest_framework.authtoken',
     'django.contrib.messages',
