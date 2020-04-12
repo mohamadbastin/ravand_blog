@@ -18,6 +18,7 @@ class WorkRequestCreateView(CreateAPIView):
             return request.data.get(p)
 
         serializer = WorkRequestSerializer(data=request.data)
+        serializer.is_valid()
         print(serializer.errors)
         if serializer.is_valid():
             serializer.save()
