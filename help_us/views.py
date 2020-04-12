@@ -11,16 +11,34 @@ from .serializers import *
 
 class WorkRequestCreateView(CreateAPIView):
     serializer_class = WorkRequestSerializer
+    # parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+    def post(self, request, *args, **kwargs):
+        # def a(p):
+        #     return request.data.get(p)
+
+        serializer = WorkRequestSerializer(data=request.data)
+        # serializer.is_valid()
+        # print(serializer.errors)
+        if serializer.is_valid():
+            a = serializer.save()
+            return Response({"msg": "done", "id": a.pk}, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response({"msg", "something went wrong!"}, status=status.HTTP_409_CONFLICT)
+
+
+class ResumeCreateView(CreateAPIView):
+    serializer_class = ResumeSerializer
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def post(self, request, *args, **kwargs):
-        def a(p):
-            return request.data.get(p)
+        serializer = ResumeSerializer(data=request.data)
 
-        serializer = WorkRequestSerializer(data=request.data)
-        serializer.is_valid()
-        print(serializer.errors)
         if serializer.is_valid():
-            serializer.save()
+            a = serializer.save()
+            b = WorkRequest.objects.get(pk=request.data.get('id'))
+            b.resumee = a
+            b.save()
             return Response({"msg": "done"}, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response({"msg", "something went wrong!"}, status=status.HTTP_409_CONFLICT)

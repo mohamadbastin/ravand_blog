@@ -13,8 +13,12 @@ class WorkRequest(models.Model):
     skills = models.TextField(max_length=23433)
     why = models.TextField(max_length=24443, null=True, blank=True)
     departments = models.TextField(max_length=32432)
-    resume = models.FileField(null=True, blank=True)
+    resumee = models.ForeignKey('Resume', on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.name
+
+
+class Resume(models.Model):
+    resume = models.FileField(null=True, blank=True)
