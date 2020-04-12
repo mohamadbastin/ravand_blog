@@ -22,4 +22,4 @@ class WorkRequestCreateView(CreateAPIView):
         if serializer.is_valid():
             serializer.save()
             return Response({"msg": "done"}, status=status.HTTP_201_CREATED)
-        return Response({"msg", "something went wrong!"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"msg", "something went wrong!"}, status=status.HTTP_409_CONFLICT)
