@@ -11,7 +11,7 @@ from .serializers import *
 
 class WorkRequestCreateView(CreateAPIView):
     serializer_class = WorkRequestSerializer
-    parser_classes = [FileUploadParser, MultiPartParser, FormParser, JSONParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def post(self, request, *args, **kwargs):
         def a(p):
