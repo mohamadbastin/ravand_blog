@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
+from rest_framework.parsers import FileUploadParser, JSONParser, MultiPartParser, FormParser
 from rest_framework.response import Response
 
 from .serializers import *
@@ -10,6 +11,7 @@ from .serializers import *
 
 class WorkRequestCreateView(CreateAPIView):
     serializer_class = WorkRequestSerializer
+    parser_classes = [FileUploadParser, MultiPartParser, FormParser, JSONParser]
 
     def post(self, request, *args, **kwargs):
         def a(p):
