@@ -8,4 +8,5 @@ class WRAdmin(admin.ModelAdmin):
 
 
 admin.site.register(WorkRequest, WRAdmin)
+admin.site.register(Resume)
 # Register your models here.
