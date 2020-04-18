@@ -35,7 +35,7 @@ class ResumeCreateView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = ResumeSerializer(data=request.data)
-        print(request)
+        print(request.data)
 
         if serializer.is_valid():
             a = serializer.save()
