@@ -1,3 +1,5 @@
+import pprint
+
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
 from rest_framework.parsers import FileUploadParser, JSONParser, MultiPartParser, FormParser
@@ -33,6 +35,7 @@ class ResumeCreateView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = ResumeSerializer(data=request.data)
+        print(request)
 
         if serializer.is_valid():
             a = serializer.save()
