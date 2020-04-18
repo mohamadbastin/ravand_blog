@@ -21,4 +21,4 @@ class WorkRequest(models.Model):
 
 
 class Resume(models.Model):
-    resume = models.FileField(null=True, blank=True)
+    file = models.FileField()
