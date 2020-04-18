@@ -38,7 +38,7 @@ class ResumeCreateView(CreateAPIView):
             a = serializer.save()
             b = WorkRequest.objects.get(pk=kwargs.get('id'))
             print(a.resume)
-            b.resumee = a
+            b.file = a
             b.save()
             return Response({"msg": "done"}, status=status.HTTP_201_CREATED)
         print(serializer.errors)
