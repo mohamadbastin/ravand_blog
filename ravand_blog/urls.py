@@ -33,7 +33,7 @@ urlpatterns = [
     path('post/list/', PostListView.as_view()),
     path('post/<int:ppk>', PostRetrieveView.as_view()),
     path('helpus/create/', WorkRequestCreateView.as_view()),
-    path('helpus/file/', ResumeCreateView.as_view()),
+    path('helpus/file/<int:id>', ResumeCreateView.as_view()),
 ]
 
 if settings.DEBUG:
